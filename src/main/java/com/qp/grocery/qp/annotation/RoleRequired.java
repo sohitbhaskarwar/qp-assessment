@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RoleRequired {
-    Role[] value() default { };
+    Role[] value() default {Role.ADMIN};
 }

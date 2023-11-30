@@ -14,44 +14,38 @@ import java.util.Objects;
 
 @Component
 public class GroceryInterceptor implements HandlerInterceptor {
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Role userRole = fetchRoleData(request.getHeader(Constant.USER_TYPE));
 
         if (Objects.isNull(userRole)) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            throw new Exception("Bad Request: Your request is invalid");
-            // response.getWriter().write("Bad Request: Your request is invalid");
+            response.getWriter().write("Bad Request: Your request is invalid");
         }
 
         if (handler instanceof HandlerMethod handlerMethod) {
             RoleRequired roleRequiredAnnotation = handlerMethod.getMethodAnnotation(RoleRequired.class);
-
             if (Objects.nonNull(roleRequiredAnnotation)) {
                 Role[] requiredRoles = roleRequiredAnnotation.value();
-
                 if (checkUserHasRoles(requiredRoles, userRole)) {
                     return true;
-                } else {
-                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    response.getWriter().write("Access Denied: Insufficient Roles");
-                    return false;
                 }
             }
         }
-        return true;
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.getWriter().write("Access Denied: Insufficient Roles");
+        return false;
     }
 
     private Role fetchRoleData(String userType) {
         try {
             return Role.valueOf(userType);
-        } catch (Exception e) {
+        } catch (Exception exception) {
         }
         return null;
     }
 
-    private static boolean checkUserHasRoles(Role[] requiredRoles, Role user) {
-        return Arrays.asList(requiredRoles).contains(user);
+    private static boolean checkUserHasRoles(Role[] requiredRoles, Role requestRole) {
+        return requestRole.equals(Role.ADMIN) || Arrays.asList(requiredRoles).contains(requestRole);
     }
 }

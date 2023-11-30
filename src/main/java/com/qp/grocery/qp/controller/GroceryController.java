@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,18 +58,24 @@ public class GroceryController {
     }
 
     @GetMapping("all")
-    @RoleRequired(Role.ADMIN)
+    @RoleRequired
     public BaseResponse<List<ProductResponse>> fetchAllGroceryDetails() {
-        return new BaseResponse<>(iGroceryService.fetchAllGroceryDetails(), HttpStatus.OK);
+        return new BaseResponse<>(iGroceryService.fetchAllGroceryDetails(null), HttpStatus.OK);
     }
 
-    @PutMapping()
+    @GetMapping("available")
+    @RoleRequired(Role.USER)
+    public BaseResponse<List<ProductResponse>> fetchAvailableGroceryDetails() {
+        return new BaseResponse<>(iGroceryService.fetchAllGroceryDetails(true), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
     public BaseResponse<ProductResponse> updateProductDetails(@PathVariable(name = "id") @NotNull Long id,
-                                                                    @RequestBody ProductUpdateRequest productUpdateRequest) {
+                                                              @RequestBody ProductUpdateRequest productUpdateRequest) {
         return new BaseResponse<>(iGroceryService.updateProductDetails(id, productUpdateRequest), HttpStatus.OK);
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/{id}")
     @RoleRequired(Role.ADMIN)
     public BaseResponse<String> deleteProduct(@PathVariable(name = "id") @NotNull Long id) {
         return new BaseResponse<>(iGroceryService.deleteProduct(id), HttpStatus.OK);

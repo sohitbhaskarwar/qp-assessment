@@ -1,0 +1,17 @@
+# Use the official PostgreSQL Docker image
+FROM postgres
+
+# Set the environment variables for PostgreSQL
+ENV POSTGRES_USER=user
+ENV POSTGRES_PASSWORD=password
+ENV POSTGRES_DB=mydatabase
+
+# Copy SQL scripts to initialize the database
+
+# Expose PostgreSQL port
+EXPOSE 5432
+
+# docker build -t my-postgres-image
+# docker build --no-cache  -t docker-postgres -f Dockerfile_db .
+
+# docker run --name my-postgres-container -p 9090:9090 -d docker-postgres

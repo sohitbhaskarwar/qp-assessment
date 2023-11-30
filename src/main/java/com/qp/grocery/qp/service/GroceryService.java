@@ -11,7 +11,7 @@ import java.util.List;
 public interface GroceryService {
     ProductResponse addGroceryProduct(ProductRequest productRequest);
 
-    List<ProductResponse> fetchAllGroceryDetails();
+    List<ProductResponse> fetchAllGroceryDetails(Boolean isActive);
 
     ProductResponse updateProductDetails(Long id, ProductUpdateRequest productUpdateRequest);
 

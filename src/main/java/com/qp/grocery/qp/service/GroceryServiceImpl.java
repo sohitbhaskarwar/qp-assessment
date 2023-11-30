@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -30,8 +31,13 @@ public class GroceryServiceImpl implements GroceryService {
     }
 
     @Override
-    public List<ProductResponse> fetchAllGroceryDetails() {
-        List<ProductEntity> productEntityList = productRepository.findAll();
+    public List<ProductResponse> fetchAllGroceryDetails(Boolean isActive) {
+        List<ProductEntity> productEntityList;
+        if (Objects.isNull(isActive)) {
+            productEntityList = productRepository.findAll();
+        } else {
+            productEntityList = productRepository.findAllByIsActive(isActive);
+        }
         return EntityToResponseUtil.fetchAllProductDetails(productEntityList);
     }
 
