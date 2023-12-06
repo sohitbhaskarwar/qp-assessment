@@ -76,5 +76,10 @@ curl --location 'http://localhost:8280/api/v1/gbs/order/place' \
         }
     ]
 }'
-````
+```
 
+
+
+I have also dockerize the app
+1. First run db **Dockerfile_db** to run and create the **question_pro_db** (which i ahve kept) or else you can keep any but use this same db name in application.properties file
+2. Run **Dockerfile** to build the image and run the application.
