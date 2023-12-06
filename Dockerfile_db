@@ -2,16 +2,20 @@
 FROM postgres
 
 # Set the environment variables for PostgreSQL
-ENV POSTGRES_USER=user
-ENV POSTGRES_PASSWORD=password
-ENV POSTGRES_DB=mydatabase
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+ENV POSTGRES_DB=question_pro_db
 
 # Copy SQL scripts to initialize the database
 
 # Expose PostgreSQL port
-EXPOSE 5432
+EXPOSE 9090
 
 # docker build -t my-postgres-image
 # docker build --no-cache  -t docker-postgres -f Dockerfile_db .
 
-# docker run --name my-postgres-container -p 9090:9090 -d docker-postgres
+# docker run --name docker-postgres -p 9090:9090 -d docker-postgres
+
+#docker run -it --rm --network docker-postgres postgres psql -h postgres -U postgres
+
+#psql -h localhost -p 5432 -U postgres -d question_pro_db
