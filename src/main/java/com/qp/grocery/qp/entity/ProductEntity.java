@@ -23,8 +23,8 @@ public class ProductEntity extends AbstractEntity{
     @Column(name = "inventory")
     private Integer inventory;
 
-    @Column(name="is_active", columnDefinition = "default true")
-    private Boolean isActive;
+    @Column(name="is_active")
+    private Boolean isActive = true;
 
 }
 
